@@ -1,6 +1,6 @@
 {
   "name": "sdd-l",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "SDD-L role launcher package for local CLI agents",
   "license": "MIT",
   "author": "yumat_512",
