@@ -21,9 +21,9 @@ Roles:
 
 Options:
   --runtime <name>     Runtime name (default: ${DEFAULT_RUNTIME})
-  --launch             Launch runtime immediately after generating file
+  --no-launch          Do not launch runtime (generation only)
   --output-dir <path>  Output directory (default: .sdd-l/generated)
-  --feature-id <id>    Feature identifier for per-feature notes (required for coder/teacher)
+  -f, --feature <id>   Feature identifier for per-feature notes (required for coder/teacher)
   -h, --help           Show this help
 `;
 
@@ -37,7 +37,7 @@ interface ParsedRunArgs {
   runtime: string;
   launch: boolean;
   outputDir: string;
-  featureId?: string;
+  feature?: string;
   passthroughArgs: string[];
 }
 
@@ -71,9 +71,9 @@ function validateFeatureId(featureId: string): string {
 function parseArgs(argv: string[]): ParsedArgs {
   let role: string | undefined;
   let runtime: string = DEFAULT_RUNTIME;
-  let launch = false;
+  let launch = true;
   let outputDir = ".sdd-l/generated";
-  let featureId: string | undefined;
+  let feature: string | undefined;
   const passthroughArgs: string[] = [];
 
   for (let index = 0; index < argv.length; index += 1) {
@@ -102,6 +102,11 @@ function parseArgs(argv: string[]): ParsedArgs {
       continue;
     }
 
+    if (arg === "--no-launch") {
+      launch = false;
+      continue;
+    }
+
     if (arg === "--output-dir") {
       outputDir = argv[index + 1];
       index += 1;
@@ -111,11 +116,11 @@ function parseArgs(argv: string[]): ParsedArgs {
       continue;
     }
 
-    if (arg === "--feature-id") {
-      featureId = argv[index + 1];
+    if (arg === "-f" || arg === "--feature" || arg === "--feature-id") {
+      feature = argv[index + 1];
       index += 1;
-      if (!featureId) {
-        throw new Error("Missing value for --feature-id");
+      if (!feature) {
+        throw new Error("Missing value for --feature");
       }
       continue;
     }
@@ -142,7 +147,7 @@ function parseArgs(argv: string[]): ParsedArgs {
     runtime,
     launch,
     outputDir,
-    featureId,
+    feature,
     passthroughArgs,
   };
 }
@@ -168,10 +173,10 @@ async function run() {
   const runtime: Runtime = parsed.runtime;
   const role: Role = parsed.role;
   const requiresFeatureId = role === "coder" || role === "teacher";
-  if (requiresFeatureId && !parsed.featureId) {
-    throw new Error("--feature-id is required for coder and teacher");
+  if (requiresFeatureId && !parsed.feature) {
+    throw new Error("--feature is required for coder and teacher");
   }
-  const validatedFeatureId = parsed.featureId ? validateFeatureId(parsed.featureId) : undefined;
+  const validatedFeatureId = parsed.feature ? validateFeatureId(parsed.feature) : undefined;
 
   const roleConfig = resolveRoleConfig(parsed.role);
   const packageRoot = path.resolve(fileURLToPath(new URL("../../", import.meta.url)));
@@ -208,7 +213,7 @@ async function run() {
   );
 
   if (!parsed.launch) {
-    process.stdout.write("Runtime not launched. Use --launch to execute now.\n");
+    process.stdout.write("Runtime not launched (--no-launch specified).\n");
     process.stdout.write(`Launch command: ${adapter.formatLaunchCommand(launchSpec)}\n`);
     return;
   }
