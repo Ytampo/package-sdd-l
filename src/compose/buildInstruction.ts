@@ -26,6 +26,13 @@ export function buildInstruction({
     `- runtime: ${runtime}`,
     `- generated_at: ${generatedAt.toISOString()}`,
     "",
+    "## 0. STARTUP BEHAVIOR",
+    "",
+    "- On startup, do not inspect project files or directories on your own.",
+    "- On startup, do not run any shell commands on your own.",
+    "- First, send a short ready message and wait for the user's explicit next instruction.",
+    "- Start exploration only after explicit user instruction.",
+    "",
     "---",
     "",
   ];
