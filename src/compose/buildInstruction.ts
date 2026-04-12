@@ -4,17 +4,22 @@ import type { Runtime } from "../types/runtime.js";
 interface BuildInstructionParams {
   role: Role;
   runtime: Runtime;
+  featureId?: string;
   parts: PromptPart[];
   generatedAt?: Date;
 }
 
-function buildTemplateFilePolicy(role: Role): string[] {
+function buildTemplateFilePolicy(role: Role, featureId?: string): string[] {
+  const featurePath = featureId ? `.sdd-l/notes/${featureId}` : ".sdd-l/notes/<feature-id>";
+
   if (role === "coder") {
     return [
       "## 0.5 TEMPLATE FILE POLICY",
       "",
       "- The template is not for chat-only output.",
-      "- Use `prompts/templates/change-notes-template.md` as a reference to create or update `CHANGE_NOTES.md` in the project root.",
+      "- Create notes per feature. Do not merge multiple features into a single notes file.",
+      `- Use \`prompts/templates/change-notes-template.md\` as a reference to create or update \`${featurePath}/change-notes.md\`.`,
+      `- Ensure directory \`${featurePath}/\` exists before writing the file.`,
       "- After writing the file, report the file path and a short summary in chat.",
       "",
       "---",
@@ -27,7 +32,9 @@ function buildTemplateFilePolicy(role: Role): string[] {
       "## 0.5 TEMPLATE FILE POLICY",
       "",
       "- The template is not for chat-only output.",
-      "- Use `prompts/templates/teaching-note-template.md` as a reference to create or update `TEACHING_NOTE.md` in the project root when note output is needed.",
+      "- Create notes per feature. Do not merge multiple features into a single notes file.",
+      `- Use \`prompts/templates/teaching-note-template.md\` as a reference to create or update \`${featurePath}/teaching-note.md\` when note output is needed.`,
+      `- Ensure directory \`${featurePath}/\` exists before writing the file.`,
       "- After writing the file, report the file path and a short summary in chat.",
       "",
       "---",
@@ -46,6 +53,7 @@ function formatSection(part: PromptPart, index: number): string {
 export function buildInstruction({
   role,
   runtime,
+  featureId,
   parts,
   generatedAt = new Date(),
 }: BuildInstructionParams): string {
@@ -54,6 +62,7 @@ export function buildInstruction({
     "",
     `- role: ${role}`,
     `- runtime: ${runtime}`,
+    ...(featureId ? [`- feature_id: ${featureId}`] : []),
     `- generated_at: ${generatedAt.toISOString()}`,
     "",
     "## 0. STARTUP BEHAVIOR",
@@ -66,7 +75,7 @@ export function buildInstruction({
     "",
     "---",
     "",
-    ...buildTemplateFilePolicy(role),
+    ...buildTemplateFilePolicy(role, featureId),
   ];
 
   const sections = parts.map((part, index) => formatSection(part, index)).join("\n---\n\n");

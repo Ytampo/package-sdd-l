@@ -30,8 +30,8 @@ npx sdd-l mentor
 
 ```bash
 sdd-l mentor
-sdd-l teacher
-sdd-l coder
+sdd-l teacher --feature-id auth-login
+sdd-l coder --feature-id auth-login
 ```
 
 オプション付き:
@@ -40,6 +40,7 @@ sdd-l coder
 sdd-l mentor --runtime codex
 sdd-l mentor --launch
 sdd-l mentor --output-dir .sdd-l/generated
+sdd-l coder --feature-id auth-login --launch
 ```
 
 `--` 以降で codex のオプションを渡せます:
@@ -52,6 +53,7 @@ sdd-l mentor --launch -- --model gpt-5
 
 - プロンプト合成順は固定です: `core -> role -> templates`
 - 生成 instruction はデフォルトで `.sdd-l/generated/` に出力されます
+- `coder` と `teacher` は `--feature-id` が必須で、ノートは `.sdd-l/notes/<feature-id>/` 配下に機能ごとに保存します
 - 起動時の instruction では、明示指示があるまで探索しないように誘導します
 - 実行時には role/runtime バナーを表示します
 
