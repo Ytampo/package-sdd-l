@@ -41,6 +41,18 @@ interface ParsedRunArgs {
 
 type ParsedArgs = ParsedHelpArgs | ParsedRunArgs;
 
+function buildSessionBanner({
+  role,
+  runtime,
+  mode,
+}: {
+  role: Role;
+  runtime: Runtime;
+  mode: "prepare" | "launch";
+}): string {
+  return `[SDD-L] role=${role} runtime=${runtime} mode=${mode}`;
+}
+
 function parseArgs(argv: string[]): ParsedArgs {
   let role: string | undefined;
   let runtime: string = DEFAULT_RUNTIME;
@@ -154,6 +166,7 @@ async function run() {
   });
 
   process.stdout.write(`Generated instruction file: ${output.filePath}\n`);
+  process.stdout.write(`${buildSessionBanner({ role, runtime, mode: parsed.launch ? "launch" : "prepare" })}\n`);
 
   if (!parsed.launch) {
     process.stdout.write("Runtime not launched. Use --launch to execute now.\n");
