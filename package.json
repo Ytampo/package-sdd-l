@@ -2,6 +2,8 @@
   "name": "sdd-l",
   "version": "0.1.0",
   "description": "SDD-L role launcher package for local CLI agents",
+  "license": "MIT",
+  "author": "yumat_512",
   "type": "module",
   "files": [
     "dist",
@@ -17,6 +19,9 @@
     "start": "node dist/cli/index.js",
     "sdd-l": "node dist/cli/index.js",
     "prepublishOnly": "npm run build"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
