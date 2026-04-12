@@ -8,6 +8,36 @@ interface BuildInstructionParams {
   generatedAt?: Date;
 }
 
+function buildTemplateFilePolicy(role: Role): string[] {
+  if (role === "coder") {
+    return [
+      "## 0.5 TEMPLATE FILE POLICY",
+      "",
+      "- The template is not for chat-only output.",
+      "- Use `prompts/templates/change-notes-template.md` as a reference to create or update `CHANGE_NOTES.md` in the project root.",
+      "- After writing the file, report the file path and a short summary in chat.",
+      "",
+      "---",
+      "",
+    ];
+  }
+
+  if (role === "teacher") {
+    return [
+      "## 0.5 TEMPLATE FILE POLICY",
+      "",
+      "- The template is not for chat-only output.",
+      "- Use `prompts/templates/teaching-note-template.md` as a reference to create or update `TEACHING_NOTE.md` in the project root when note output is needed.",
+      "- After writing the file, report the file path and a short summary in chat.",
+      "",
+      "---",
+      "",
+    ];
+  }
+
+  return [];
+}
+
 function formatSection(part: PromptPart, index: number): string {
   const title = `## ${index + 1}. ${part.kind.toUpperCase()} (${part.relativePath})`;
   return `${title}\n\n${part.content.trim()}\n`;
@@ -36,6 +66,7 @@ export function buildInstruction({
     "",
     "---",
     "",
+    ...buildTemplateFilePolicy(role),
   ];
 
   const sections = parts.map((part, index) => formatSection(part, index)).join("\n---\n\n");
