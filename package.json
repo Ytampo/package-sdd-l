@@ -8,7 +8,10 @@
   "files": [
     "dist",
     "prompts",
-    "package.json"
+    "package.json",
+    "README.md",
+    "README.ja.md",
+    "LICENSE"
   ],
   "bin": {
     "sdd-l": "dist/cli/index.js"
