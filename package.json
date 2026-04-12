@@ -4,6 +4,14 @@
   "description": "SDD-L role launcher package for local CLI agents",
   "license": "MIT",
   "author": "yumat_512",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ytampo/package-sdd-l.git"
+  },
+  "homepage": "https://github.com/Ytampo/package-sdd-l#readme",
+  "bugs": {
+    "url": "https://github.com/Ytampo/package-sdd-l/issues"
+  },
   "type": "module",
   "files": [
     "dist",
