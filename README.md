@@ -29,7 +29,7 @@ npx sdd-l mentor
 ## Usage
 
 ```bash
-sdd-l mentor
+sdd-l mentor --feature auth-login
 sdd-l teacher --feature auth-login
 sdd-l coder --feature auth-login
 ```
@@ -54,7 +54,15 @@ sdd-l mentor -- --model gpt-5
 - Prompt composition order is fixed: `core -> role -> templates`.
 - Generated instruction files are written to `.sdd-l/generated/` by default.
 - Runtime launch is enabled by default. Use `--no-launch` for generation-only mode.
-- For `coder` and `teacher`, `--feature` (`-f`) is required and notes are written per feature under `.sdd-l/notes/<feature-id>/`.
+- `--feature` (`-f`) is required for all roles.
+- Feature workspace is unified under `.sdd-l/features/<feature-id>/`.
+- Mentor creates and maintains:
+  - `.sdd-l/features/<feature-id>/<feature-id>-spec.md`
+  - `.sdd-l/features/<feature-id>/<feature-id>-issue.md`
+  - `.sdd-l/features/<feature-id>/meta.json`
+- Coder and Teacher follow the same feature folder:
+  - `.sdd-l/features/<feature-id>/change-notes.md`
+  - `.sdd-l/features/<feature-id>/teaching-note.md`
 - On startup, generated instructions tell the agent to wait for explicit user direction before exploration.
 - CLI prints the current role/runtime banner on each run.
 

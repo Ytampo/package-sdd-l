@@ -29,7 +29,7 @@ npx sdd-l mentor
 ## 使い方
 
 ```bash
-sdd-l mentor
+sdd-l mentor --feature auth-login
 sdd-l teacher --feature auth-login
 sdd-l coder --feature auth-login
 ```
@@ -54,7 +54,15 @@ sdd-l mentor -- --model gpt-5
 - プロンプト合成順は固定です: `core -> role -> templates`
 - 生成 instruction はデフォルトで `.sdd-l/generated/` に出力されます
 - runtime 起動はデフォルトで有効です。生成だけ行う場合は `--no-launch` を使います
-- `coder` と `teacher` は `--feature`（`-f`）が必須で、ノートは `.sdd-l/notes/<feature-id>/` 配下に機能ごとに保存します
+- 全ロールで `--feature`（`-f`）が必須です
+- 機能単位の作業領域は `.sdd-l/features/<feature-id>/` に統一されます
+- Mentor は以下を作成・更新します
+  - `.sdd-l/features/<feature-id>/<feature-id>-spec.md`
+  - `.sdd-l/features/<feature-id>/<feature-id>-issue.md`
+  - `.sdd-l/features/<feature-id>/meta.json`
+- Coder / Teacher は同じ機能フォルダ内で以下を作成・更新します
+  - `.sdd-l/features/<feature-id>/change-notes.md`
+  - `.sdd-l/features/<feature-id>/teaching-note.md`
 - 起動時の instruction では、明示指示があるまで探索しないように誘導します
 - 実行時には role/runtime バナーを表示します
 

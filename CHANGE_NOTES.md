@@ -11,10 +11,10 @@
 - 起動時に現在ロールを把握しやすくするため、`[SDD-L] role=... runtime=... mode=...` バナーを追加
 - 生成 instruction に「最初の返答を `READY: role=... runtime=...` で固定する」ルールを追加
 - `coder` / `teacher` のテンプレ運用を「回答出力」ではなく「`.md` ファイル生成」に明確化
-- `coder` / `teacher` のノート出力先を機能単位へ変更（`.sdd-l/notes/<feature-id>/...`）
-- `--feature-id` オプションを追加し、`coder` / `teacher` では必須化
+- 機能単位フォルダ `.sdd-l/features/<feature-id>/` を導入し、Mentor/Coder/Teacher の出力先を統一
+- `--feature` オプションを全ロール必須化（`--feature-id` は互換エイリアス）
 - runtime launch をデフォルト有効化し、生成のみモードは `--no-launch` に変更
-- `--feature-id` を短縮し、`-f, --feature` を追加（`--feature-id` は互換エイリアス）
+- 仕様・Issue下書き・実装ノートを feature フォルダ配下に集約
 
 ## 変更理由
 
@@ -26,6 +26,7 @@
 - Change Notes / Teaching Note を会話ログではなく再利用可能な文書資産として残すため
 - 機能ごとにノートを分離し、履歴追跡とレビュー単位を明確にするため
 - 実行コマンドの入力負荷を下げ、日常運用を簡潔にするため
+- Mentor が Issue に紐づく spec を先に作成し、Coder/Teacher が同じ spec を参照する流れに揃えるため
 
 ## 注意点
 
@@ -34,8 +35,8 @@
 - `--launch` 実行時に Codex 側の環境制約（権限・設定）で失敗する場合がある
 - passthrough は codex オプションのみ許可し、`--dangerously-bypass-approvals-and-sandbox` は拒否する
 - 起動直後の待機挙動は instruction 依存のため、Codex 側挙動変更時は再調整が必要
-- `teacher` の Teaching Note は Note 出力が必要な場合のみ `TEACHING_NOTE.md` 作成を求める
-- `--feature-id` は英数字・`.`・`_`・`-` のみ許可し、パストラバーサルを防ぐ
+- `teacher` の Teaching Note は Note 出力が必要な場合のみ `.sdd-l/features/<feature-id>/teaching-note.md` 作成を求める
+- `--feature` は英数字・`.`・`_`・`-` のみ許可し、パストラバーサルを防ぐ
 
 ## テスト観点
 
