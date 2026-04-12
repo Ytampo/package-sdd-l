@@ -1,0 +1,13 @@
+{
+  "name": "sdd-l",
+  "version": "0.1.0",
+  "description": "SDD-L role launcher package for local CLI agents",
+  "type": "module",
+  "bin": {
+    "sdd-l": "src/cli/index.js"
+  },
+  "scripts": {
+    "start": "node src/cli/index.js",
+    "sdd-l": "node src/cli/index.js"
+  }
+}
