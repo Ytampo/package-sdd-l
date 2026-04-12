@@ -3,6 +3,11 @@
   "version": "0.1.0",
   "description": "SDD-L role launcher package for local CLI agents",
   "type": "module",
+  "files": [
+    "src",
+    "prompts",
+    "package.json"
+  ],
   "bin": {
     "sdd-l": "src/cli/index.js"
   },
