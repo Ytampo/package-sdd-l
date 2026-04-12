@@ -4,15 +4,22 @@
   "description": "SDD-L role launcher package for local CLI agents",
   "type": "module",
   "files": [
-    "src",
+    "dist",
     "prompts",
     "package.json"
   ],
   "bin": {
-    "sdd-l": "src/cli/index.js"
+    "sdd-l": "dist/cli/index.js"
   },
   "scripts": {
-    "start": "node src/cli/index.js",
-    "sdd-l": "node src/cli/index.js"
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "start": "node dist/cli/index.js",
+    "sdd-l": "node dist/cli/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.3",
+    "typescript": "^5.8.3"
   }
 }

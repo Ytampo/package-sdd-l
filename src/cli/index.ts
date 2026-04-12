@@ -8,7 +8,9 @@ import { resolveRoleConfig } from "../compose/resolveRoleConfig.js";
 import { writeGeneratedFile } from "../fs/writeGeneratedFile.js";
 import { resolveRuntimeAdapter } from "../runtime/index.js";
 import { DEFAULT_RUNTIME, isSupportedRuntime, SUPPORTED_RUNTIMES } from "../types/runtime.js";
-import { SUPPORTED_ROLES } from "../types/role.js";
+import { isSupportedRole, SUPPORTED_ROLES } from "../types/role.js";
+import type { Runtime } from "../types/runtime.js";
+import type { Role } from "../types/role.js";
 
 const USAGE = `
 Usage:
@@ -24,12 +26,27 @@ Options:
   -h, --help           Show this help
 `;
 
-function parseArgs(argv) {
-  let role;
-  let runtime = DEFAULT_RUNTIME;
+interface ParsedHelpArgs {
+  help: true;
+}
+
+interface ParsedRunArgs {
+  help: false;
+  role: string;
+  runtime: string;
+  launch: boolean;
+  outputDir: string;
+  passthroughArgs: string[];
+}
+
+type ParsedArgs = ParsedHelpArgs | ParsedRunArgs;
+
+function parseArgs(argv: string[]): ParsedArgs {
+  let role: string | undefined;
+  let runtime: string = DEFAULT_RUNTIME;
   let launch = false;
   let outputDir = ".sdd-l/generated";
-  const passthroughArgs = [];
+  const passthroughArgs: string[] = [];
 
   for (let index = 0; index < argv.length; index += 1) {
     const arg = argv[index];
@@ -106,24 +123,31 @@ async function run() {
     );
   }
 
+  if (!isSupportedRole(parsed.role)) {
+    throw new Error(`Unsupported role "${parsed.role}". Supported roles: ${SUPPORTED_ROLES.join(", ")}`);
+  }
+
+  const runtime: Runtime = parsed.runtime;
+  const role: Role = parsed.role;
+
   const roleConfig = resolveRoleConfig(parsed.role);
   const packageRoot = path.resolve(fileURLToPath(new URL("../../", import.meta.url)));
   const promptParts = await loadPromptParts({ packageRoot, roleConfig });
   const instructionText = buildInstruction({
-    role: parsed.role,
-    runtime: parsed.runtime,
+    role,
+    runtime,
     parts: promptParts,
   });
 
   const output = await writeGeneratedFile({
     projectRoot: process.cwd(),
-    role: parsed.role,
-    runtime: parsed.runtime,
+    role,
+    runtime,
     instructionText,
     outputDir: parsed.outputDir,
   });
 
-  const adapter = resolveRuntimeAdapter(parsed.runtime);
+  const adapter = resolveRuntimeAdapter(runtime);
   const launchSpec = adapter.buildLaunchCommand({
     instructionFilePath: output.filePath,
     passthroughArgs: parsed.passthroughArgs,
@@ -151,8 +175,9 @@ async function run() {
   process.exitCode = result.code ?? 0;
 }
 
-run().catch((error) => {
-  process.stderr.write(`sdd-l error: ${error.message}\n`);
+run().catch((error: unknown) => {
+  const reason = error instanceof Error ? error.message : String(error);
+  process.stderr.write(`sdd-l error: ${reason}\n`);
   process.stderr.write(USAGE);
   process.exit(1);
 });
