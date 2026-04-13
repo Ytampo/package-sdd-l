@@ -54,12 +54,16 @@ sdd-l mentor -- --model gpt-5
 - プロンプト合成順は固定です: `core -> role -> templates`
 - 生成 instruction はデフォルトで `.sdd-l/generated/` に出力されます
 - runtime 起動はデフォルトで有効です。生成だけ行う場合は `--no-launch` を使います
+<<<<<<< HEAD
 - `--feature`（`-f`）は任意で、実行時のコンテキストラベルとして使えます
 - md ノートの出力先は role ごとに固定です
   - Mentor: `.sdd-l/notes/mentor/`
   - Coder: `.sdd-l/notes/coder/`
   - Teacher: `.sdd-l/notes/teacher/`
 - 新規作成か既存更新かは、実行コンテキストを見てエージェント側で判断します
+=======
+- `--feature`（`-f`）は任意です。未指定時は role ごとの `.sdd-l/notes/<role>/` に保存し、指定時は `.sdd-l/notes/<feature-id>/` にまとめます
+>>>>>>> 400963e (update: featureの任意化)
 - 起動時の instruction では、明示指示があるまで探索しないように誘導します
 - 実行時には role/runtime バナーを表示します
 

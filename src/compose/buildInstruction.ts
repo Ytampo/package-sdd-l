@@ -9,6 +9,7 @@ interface BuildInstructionParams {
   generatedAt?: Date;
 }
 
+<<<<<<< HEAD
 const ROLE_NOTE_ROOT: Record<Role, string> = {
   mentor: ".sdd-l/notes/mentor",
   coder: ".sdd-l/notes/coder",
@@ -32,6 +33,18 @@ function buildRoleNotePolicy(role: Role): string[] {
       "",
     ];
   }
+=======
+function resolveNoteRoot(role: Role, featureId?: string): string {
+  if (featureId) {
+    return `.sdd-l/notes/${featureId}`;
+  }
+
+  return `.sdd-l/notes/${role}`;
+}
+
+function buildTemplateFilePolicy(role: Role, featureId?: string): string[] {
+  const noteRoot = resolveNoteRoot(role, featureId);
+>>>>>>> 400963e (update: featureの任意化)
 
   if (role === "coder") {
     return [
@@ -39,16 +52,23 @@ function buildRoleNotePolicy(role: Role): string[] {
       "",
       `- Write coder markdown files under \`${noteRoot}/\`.`,
       "- The template is not for chat-only output.",
+<<<<<<< HEAD
       "- Use `prompts/templates/change-notes-template.md` as a reference when writing markdown files.",
       "- Decide whether to create a new file or update an existing file based on context.",
       "- Suggested filename format: `YYYY-MM-DD-<topic>-change-notes.md`.",
       "- After writing files, report changed file paths and a short summary in chat.",
+=======
+      `- Use \`prompts/templates/change-notes-template.md\` as a reference to create or update \`${noteRoot}/change-notes.md\`.`,
+      `- Ensure directory \`${noteRoot}/\` exists before writing the file.`,
+      "- After writing the file, report the file path and a short summary in chat.",
+>>>>>>> 400963e (update: featureの任意化)
       "",
       "---",
       "",
     ];
   }
 
+<<<<<<< HEAD
   return [
     "## 0.5 NOTE FILE POLICY",
     "",
@@ -62,6 +82,23 @@ function buildRoleNotePolicy(role: Role): string[] {
     "---",
     "",
   ];
+=======
+  if (role === "teacher") {
+    return [
+      "## 0.5 TEMPLATE FILE POLICY",
+      "",
+      "- The template is not for chat-only output.",
+      `- Use \`prompts/templates/teaching-note-template.md\` as a reference to create or update \`${noteRoot}/teaching-note.md\` when note output is needed.`,
+      `- Ensure directory \`${noteRoot}/\` exists before writing the file.`,
+      "- After writing the file, report the file path and a short summary in chat.",
+      "",
+      "---",
+      "",
+    ];
+  }
+
+  return [];
+>>>>>>> 400963e (update: featureの任意化)
 }
 
 function formatSection(part: PromptPart, index: number): string {
