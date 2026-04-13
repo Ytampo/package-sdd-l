@@ -23,7 +23,7 @@ Options:
   --runtime <name>     Runtime name (default: ${DEFAULT_RUNTIME})
   --no-launch          Do not launch runtime (generation only)
   --output-dir <path>  Output directory (default: .sdd-l/generated)
-  -f, --feature <id>   Feature identifier for per-feature notes (required for coder/teacher)
+  -f, --feature <id>   Optional context label for this run
   -h, --help           Show this help
 `;
 
@@ -61,7 +61,7 @@ function buildSessionBanner({
 function validateFeatureId(featureId: string): string {
   if (!/^[a-zA-Z0-9._-]+$/.test(featureId)) {
     throw new Error(
-      "Invalid --feature-id. Use only letters, numbers, dot (.), underscore (_), and hyphen (-).",
+      "Invalid --feature. Use only letters, numbers, dot (.), underscore (_), and hyphen (-).",
     );
   }
 
@@ -172,10 +172,6 @@ async function run() {
 
   const runtime: Runtime = parsed.runtime;
   const role: Role = parsed.role;
-  const requiresFeatureId = role === "coder" || role === "teacher";
-  if (requiresFeatureId && !parsed.feature) {
-    throw new Error("--feature is required for coder and teacher");
-  }
   const validatedFeatureId = parsed.feature ? validateFeatureId(parsed.feature) : undefined;
 
   const roleConfig = resolveRoleConfig(parsed.role);
