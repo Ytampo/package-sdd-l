@@ -23,11 +23,7 @@ Options:
   --runtime <name>     Runtime name (default: ${DEFAULT_RUNTIME})
   --no-launch          Do not launch runtime (generation only)
   --output-dir <path>  Output directory (default: .sdd-l/generated)
-<<<<<<< HEAD
   -f, --feature <id>   Optional context label for this run
-=======
-  -f, --feature <id>   Optional feature label for notes
->>>>>>> 400963e (update: featureの任意化)
   -h, --help           Show this help
 `;
 
