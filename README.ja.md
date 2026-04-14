@@ -26,7 +26,7 @@ npm install -g sdd-l
 npx sdd-l mentor
 ```
 
-git リポジトリ内で `npm install sdd-l` した場合、postinstall で `sdd-l-notes/` を git 追跡するか確認します。
+`.git` または `.gitignore` があるプロジェクトで `npm install sdd-l` した場合、postinstall で `sdd-l-notes/` を git 追跡するか確認します。
 追跡しない選択をした場合は `.gitignore` に `sdd-l-notes/` を追記します。
 
 非対話環境では、次の環境変数で指定できます:

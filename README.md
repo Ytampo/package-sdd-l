@@ -26,7 +26,7 @@ or
 npx sdd-l mentor
 ```
 
-When installing into a git repository (`npm install sdd-l`), postinstall asks whether to track `sdd-l-notes/` in git.
+When installing into a project that has either `.git` or `.gitignore` (`npm install sdd-l`), postinstall asks whether to track `sdd-l-notes/` in git.
 If you choose not to track it, `sdd-l-notes/` is added to `.gitignore`.
 
 For non-interactive install, set:

@@ -29,15 +29,28 @@ function parseChoiceFromEnv(value: string | undefined): NotesTrackingChoice | un
   return undefined;
 }
 
-async function isGitRepository(projectRoot: string): Promise<boolean> {
-  const gitPath = path.join(projectRoot, ".git");
-
+async function pathExists(targetPath: string): Promise<boolean> {
   try {
-    await stat(gitPath);
+    await stat(targetPath);
     return true;
   } catch {
     return false;
   }
+}
+
+async function shouldPromptForTracking(projectRoot: string): Promise<boolean> {
+  const gitPath = path.join(projectRoot, ".git");
+  const gitignorePath = path.join(projectRoot, ".gitignore");
+
+  if (await pathExists(gitPath)) {
+    return true;
+  }
+
+  if (await pathExists(gitignorePath)) {
+    return true;
+  }
+
+  return false;
 }
 
 async function promptTrackingChoice(): Promise<NotesTrackingChoice> {
@@ -117,9 +130,9 @@ async function run(): Promise<void> {
   }
 
   const projectRoot = process.env.INIT_CWD ? path.resolve(process.env.INIT_CWD) : process.cwd();
-  const inGitRepository = await isGitRepository(projectRoot);
+  const shouldPrompt = await shouldPromptForTracking(projectRoot);
 
-  if (!inGitRepository) {
+  if (!shouldPrompt) {
     return;
   }
 
