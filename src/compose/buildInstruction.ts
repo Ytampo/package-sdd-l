@@ -10,9 +10,9 @@ interface BuildInstructionParams {
 }
 
 const ROLE_NOTE_ROOT: Record<Role, string> = {
-  mentor: ".sdd-l/notes/mentor",
-  coder: ".sdd-l/notes/coder",
-  teacher: ".sdd-l/notes/teacher",
+  mentor: "sdd-l-notes/mentor",
+  coder: "sdd-l-notes/coder",
+  teacher: "sdd-l-notes/teacher",
 };
 
 function buildRoleNotePolicy(role: Role): string[] {

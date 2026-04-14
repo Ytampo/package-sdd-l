@@ -11,11 +11,12 @@
 - 起動時に現在ロールを把握しやすくするため、`[SDD-L] role=... runtime=... mode=...` バナーを追加
 - 生成 instruction に「最初の返答を `READY: role=... runtime=...` で固定する」ルールを追加
 - `coder` / `teacher` のテンプレ運用を「回答出力」ではなく「`.md` ファイル生成」に明確化
-- ノート出力先を role 固定ディレクトリへ変更（`.sdd-l/notes/mentor|coder|teacher/`）
+- ノート出力先を role 固定ディレクトリへ変更（`sdd-l-notes/mentor|coder|teacher/`）
 - `--feature` は任意コンテキストラベル化（`--feature-id` は互換エイリアス）
 - runtime launch をデフォルト有効化し、生成のみモードは `--no-launch` に変更
 - 機能単位の新規ノート作成/既存更新はエージェント判断へ委譲
 - `prompts/` を廃止し、`sdd-l-prompts/` に一本化（後方互換フォールバック読込も削除）
+- `postinstall` で `sdd-l-notes/` の git 追跡有無を選択可能にし、非追跡時は `.gitignore` へ自動追記
 
 ## 変更理由
 
@@ -35,9 +36,10 @@
 - `--launch` 実行時に Codex 側の環境制約（権限・設定）で失敗する場合がある
 - passthrough は codex オプションのみ許可し、`--dangerously-bypass-approvals-and-sandbox` は拒否する
 - 起動直後の待機挙動は instruction 依存のため、Codex 側挙動変更時は再調整が必要
-- `teacher` の Teaching Note は Note 出力が必要な場合のみ `.sdd-l/notes/teacher/` 配下で作成を求める
+- `teacher` の Teaching Note は Note 出力が必要な場合のみ `sdd-l-notes/teacher/` 配下で作成を求める
 - `--feature` は任意。使う場合は英数字・`.`・`_`・`-` のみ許可する
 - 旧 `prompts/` は非対応（破壊的変更）
+- 非対話 install では `SDDL_NOTES_GIT=track|ignore` で挙動を固定できる
 
 ## テスト観点
 

@@ -26,6 +26,16 @@ or
 npx sdd-l mentor
 ```
 
+When installing into a git repository (`npm install sdd-l`), postinstall asks whether to track `sdd-l-notes/` in git.
+If you choose not to track it, `sdd-l-notes/` is added to `.gitignore`.
+
+For non-interactive install, set:
+
+```bash
+SDDL_NOTES_GIT=track npm install sdd-l
+SDDL_NOTES_GIT=ignore npm install sdd-l
+```
+
 ## Usage
 
 ```bash
@@ -56,9 +66,9 @@ sdd-l mentor -- --model gpt-5
 - Runtime launch is enabled by default. Use `--no-launch` for generation-only mode.
 - `--feature` (`-f`) is optional and works as a context label for the run.
 - Markdown note output is role-based:
-  - Mentor: `.sdd-l/notes/mentor/`
-  - Coder: `.sdd-l/notes/coder/`
-  - Teacher: `.sdd-l/notes/teacher/`
+  - Mentor: `sdd-l-notes/mentor/`
+  - Coder: `sdd-l-notes/coder/`
+  - Teacher: `sdd-l-notes/teacher/`
 - Whether to create a new note file or update an existing one is decided by the agent based on context.
 - On startup, generated instructions tell the agent to wait for explicit user direction before exploration.
 - CLI prints the current role/runtime banner on each run.

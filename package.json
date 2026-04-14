@@ -29,6 +29,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "start": "node dist/cli/index.js",
     "sdd-l": "node dist/cli/index.js",
+    "postinstall": "node dist/setup/configureNotesTracking.js",
     "prepublishOnly": "npm run build"
   },
   "publishConfig": {
