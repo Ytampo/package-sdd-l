@@ -15,6 +15,7 @@
 - `--feature` は任意コンテキストラベル化（`--feature-id` は互換エイリアス）
 - runtime launch をデフォルト有効化し、生成のみモードは `--no-launch` に変更
 - 機能単位の新規ノート作成/既存更新はエージェント判断へ委譲
+- `prompts/` を廃止し、`sdd-l-prompts/` に一本化（後方互換フォールバック読込も削除）
 
 ## 変更理由
 
@@ -36,6 +37,7 @@
 - 起動直後の待機挙動は instruction 依存のため、Codex 側挙動変更時は再調整が必要
 - `teacher` の Teaching Note は Note 出力が必要な場合のみ `.sdd-l/notes/teacher/` 配下で作成を求める
 - `--feature` は任意。使う場合は英数字・`.`・`_`・`-` のみ許可する
+- 旧 `prompts/` は非対応（破壊的変更）
 
 ## テスト観点
 
@@ -46,7 +48,7 @@
   - `node dist/cli/index.js coder`
   - それぞれ `.sdd-l/generated/` に instruction が出力されること
   - `core -> role -> template` 順で section が含まれること
-  - `npm pack --dry-run` で `dist/` と `prompts/` のみ含まれること
+  - `npm pack --dry-run` で `dist/` と `sdd-l-prompts/` のみ含まれること
 - 異常系:
   - `node dist/cli/index.js unknown-role` でエラー終了すること
   - `node dist/cli/index.js mentor --output-dir ../outside` で拒否されること

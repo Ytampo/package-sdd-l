@@ -82,5 +82,5 @@ node dist/cli/index.js mentor
 ```text
 src/        # TypeScript source
 dist/       # Build output
-prompts/    # SDD-L prompt assets
+sdd-l-prompts/  # SDD-L prompt assets
 ```

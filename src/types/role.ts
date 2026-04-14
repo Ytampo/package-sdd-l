@@ -14,20 +14,20 @@ export interface PromptPart {
   content: string;
 }
 
-const CORE_PROMPT_FILE = "prompts/core/00_sddl_principles.md";
+const CORE_PROMPT_FILE = "sdd-l-prompts/core/00_sddl_principles.md";
 
 const ROLE_CONFIGS: Record<Role, Omit<RoleConfig, "coreFile">> = {
   mentor: {
-    roleFile: "prompts/roles/mentor.md",
+    roleFile: "sdd-l-prompts/roles/mentor.md",
     templateFiles: [],
   },
   teacher: {
-    roleFile: "prompts/roles/teacher.md",
-    templateFiles: ["prompts/templates/teaching-note-template.md"],
+    roleFile: "sdd-l-prompts/roles/teacher.md",
+    templateFiles: ["sdd-l-prompts/templates/teaching-note-template.md"],
   },
   coder: {
-    roleFile: "prompts/roles/coder.md",
-    templateFiles: ["prompts/templates/change-notes-template.md"],
+    roleFile: "sdd-l-prompts/roles/coder.md",
+    templateFiles: ["sdd-l-prompts/templates/change-notes-template.md"],
   },
 };
 

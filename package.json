@@ -15,7 +15,7 @@
   "type": "module",
   "files": [
     "dist",
-    "prompts",
+    "sdd-l-prompts",
     "package.json",
     "README.md",
     "README.ja.md",

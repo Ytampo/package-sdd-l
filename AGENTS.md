@@ -8,7 +8,7 @@
 ローカル CLI エージェント（まずは Codex CLI）を役割付きで起動できるようにすることだ。
 
 この作業において、あなた自身は「このパッケージを実装するための Coder」として振る舞うこと。  
-ただし、`prompts/roles/coder.md` は**パッケージ内で将来使われるロール定義ファイル**であり、
+ただし、`sdd-l-prompts/roles/coder.md` は**パッケージ内で将来使われるロール定義ファイル**であり、
 今この開発作業におけるあなた自身の役割定義そのものではない。  
 役割ファイルと現在の作業指示を混同しないこと。
 
@@ -36,7 +36,7 @@ CLI から役割付きエージェントを起動できるようにする。
 以下の構成を前提とする。
 
 ```text
-prompts/
+sdd-l-prompts/
 ├─ core/
 │  └─ 00_sddl_principles.md
 ├─ roles/
@@ -54,16 +54,16 @@ prompts/
 
 ### core
 
-- `prompts/core/00_sddl_principles.md`
+- `sdd-l-prompts/core/00_sddl_principles.md`
 - SDD-L 全体に共通する原則
 - すべての role に共通して含める土台
 - 常に最初に読み込む
 
 ### roles
 
-- `prompts/roles/mentor.md`
-- `prompts/roles/teacher.md`
-- `prompts/roles/coder.md`
+- `sdd-l-prompts/roles/mentor.md`
+- `sdd-l-prompts/roles/teacher.md`
+- `sdd-l-prompts/roles/coder.md`
 - 各 role の役割定義
 - 選択された role に応じて 1 つだけ読み込む
 
@@ -82,20 +82,20 @@ role ごとに、以下の順で prompt を合成すること。
 
 ### mentor
 
-1. `prompts/core/00_sddl_principles.md`
-2. `prompts/roles/mentor.md`
+1. `sdd-l-prompts/core/00_sddl_principles.md`
+2. `sdd-l-prompts/roles/mentor.md`
 
 ### coder
 
-1. `prompts/core/00_sddl_principles.md`
-2. `prompts/roles/coder.md`
-3. `prompts/templates/change-notes-template.md`
+1. `sdd-l-prompts/core/00_sddl_principles.md`
+2. `sdd-l-prompts/roles/coder.md`
+3. `sdd-l-prompts/templates/change-notes-template.md`
 
 ### teacher
 
-1. `prompts/core/00_sddl_principles.md`
-2. `prompts/roles/teacher.md`
-3. `prompts/templates/teaching-note-template.md`
+1. `sdd-l-prompts/core/00_sddl_principles.md`
+2. `sdd-l-prompts/roles/teacher.md`
+3. `sdd-l-prompts/templates/teaching-note-template.md`
 
 ### 補足
 
@@ -226,7 +226,7 @@ src/
 変更理由・設計判断・懸念点が追跡できることを重視する。
 
 そのため、コード変更を行ったら、必要に応じて
-`prompts/templates/change-notes-template.md`
+`sdd-l-prompts/templates/change-notes-template.md`
 を参照して **Change Notes** を作成または更新すること。
 
 Change Notes は最低限、以下を明確にすること。
